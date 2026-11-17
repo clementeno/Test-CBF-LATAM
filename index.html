@@ -522,6 +522,11 @@ dialog.modal::backdrop{background:rgba(27,19,33,.78);backdrop-filter:blur(3px)}
   .datebar{flex-wrap:wrap;gap:6px 24px;padding-block:14px}
   .datebar span{white-space:normal}
 }
+/* En móvil y pantallas táctiles el navbar solo tiene dos toques: logo y menú. Sin efectos de hover (pestaña del hub colgante, pestaña "Menú"). */
+@media (hover:none),(max-width:900px){
+  .bar__tab{display:none}
+  .burger::before,.burger::after{display:none}
+}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .marquee__track{animation:none}
