@@ -192,7 +192,8 @@ strong,b{font-weight:600}
 @keyframes text-in{from{opacity:0;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
 
 /* Pestaña del hub que cuelga de la barra compacta: aparece de izquierda a derecha con el hover sobre la barra y se contrae al salir */
-.bar__tab{position:absolute;left:0;top:100%;clip-path:polygon(0 0,0 0,0 100%,0 100%);transition:clip-path .4s var(--ease)}
+/* Contorno tinta de 3 px solo en el borde inferior (inset: queda dentro del recorte diagonal) para separarla de lo que haya debajo */
+.bar__tab{position:absolute;left:0;top:100%;box-shadow:inset 0 -3px 0 var(--ink);clip-path:polygon(0 0,0 0,0 100%,0 100%);transition:clip-path .4s var(--ease)}
 .bar:hover .bar__tab,.bar:has(:focus-visible) .bar__tab{clip-path:polygon(0 0,100% 0,calc(100% - 28px) 100%,0 100%);transition-duration:.65s}
 .bar:hover .bar__tab .l-body,.bar:has(:focus-visible) .bar__tab .l-body{animation:bulb-in .5s var(--ease) .3s both}
 .bar:hover .bar__tab .l-rays,.bar:has(:focus-visible) .bar__tab .l-rays{animation:rays-on 1.2s linear .5s both}
@@ -469,14 +470,9 @@ dialog.modal::backdrop{background:rgba(27,19,33,.78);backdrop-filter:blur(3px)}
 
 /* ---------- FLOTANTES ---------- */
 /* Trapecio ancho (proporción 300:182), borde izquierdo en diagonal. Lima → magenta al pasar el mouse. */
-.totop{--w:clamp(96px,9vw,132px);position:fixed;right:clamp(14px,2vw,28px);bottom:clamp(14px,2vw,28px);z-index:70;width:var(--w);aspect-ratio:300/182;border:0;background:none;color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .3s,transform .3s var(--ease),color .2s}
-/* Contorno tinta de 2 px para que no se pierda sobre otros elementos lima (cabecera, botón "Quiero ser parte"): ::before = contorno, ::after = relleno */
-.totop::before,.totop::after{content:"";position:absolute;z-index:-1;clip-path:polygon(28% 0,100% 0,100% 100%,0 100%)}
-.totop::before{inset:-2px;background:var(--ink)}
-.totop::after{inset:0;background:var(--lime);transition:background-color .2s}
+.totop{--w:clamp(96px,9vw,132px);position:fixed;right:clamp(14px,2vw,28px);bottom:clamp(14px,2vw,28px);z-index:70;width:var(--w);aspect-ratio:300/182;border:0;background:var(--lime);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0;clip-path:polygon(28% 0,100% 0,100% 100%,0 100%);opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .3s,transform .3s var(--ease),background-color .2s,color .2s}
 .totop.is-on{opacity:1;transform:none;pointer-events:auto}
-.totop:hover{color:#fff}
-.totop:hover::after{background:var(--magenta)}
+.totop:hover{background:var(--magenta);color:#fff}
 .totop .ic{translate:calc(var(--w)*.07) 0}
 .totop:hover .ic{transform:translateY(-6px)}
 .totop:focus-visible{outline:3px solid var(--ink);outline-offset:-8px}
@@ -1115,7 +1111,7 @@ dialog.modal::backdrop{background:rgba(27,19,33,.78);backdrop-filter:blur(3px)}
             <tr><td>Menú lateral</td><td>Se abre desde cualquier botón con <code>data-open-menu</code>. Panel de 600 px desde la derecha. Acordeones de un solo abierto. Cierra con la X, el fondo, Esc o al elegir un enlace. Pone <code>inert</code> al resto de la página y devuelve el foco.</td><td><code>.drawer</code></td></tr>
             <tr><td>Marca del hub</td><td>Logo en tres capas PNG (<code>hub-rays</code>, <code>hub-body</code>, <code>hub-text</code>). Al entrar a la página (una vez): la pestaña se abre de izquierda a derecha, la bombilla aparece, los rayos parpadean como al encenderse y el texto se revela. Hover y foco: los rayos se expanden, la bombilla se balancea, el texto se desplaza y aparece una flecha ↗. Es un enlace a creativebureaucracy.org.</td><td><code>.hubmark</code></td></tr>
             <tr><td>Hamburguesa</td><td>Hover y foco: una pestaña gris (mismo gris del menú lateral, <code>--mist</code>) con el corte diagonal de la marca entra desde el borde derecho de la pantalla (<code>clip-path</code>, .65 s) y revela la palabra "Menú". Las barras no cambian de forma ni de color.</td><td><code>.burger::before</code></td></tr>
-            <tr><td>Barra compacta</td><td>Aparece al pasar la cabecera grande (alto de cabecera + 44 px). Solo logo en dos líneas ("Festival de Burocracia Creativa" Semibold / "en América Latina" Regular, mismo tamaño) y hamburguesa. El alto se controla con <code>--bar-pad</code>. Al pasar el mouse por la barra (o enfocar con teclado) cuelga debajo la pestaña magenta del hub, que se abre de izquierda a derecha con su logo animado y se contrae al salir (<code>.bar__tab</code>).</td><td><code>.bar</code></td></tr>
+            <tr><td>Barra compacta</td><td>Aparece al pasar la cabecera grande (alto de cabecera + 44 px). Solo logo en dos líneas ("Festival de Burocracia Creativa" Semibold / "en América Latina" Regular, mismo tamaño) y hamburguesa. El alto se controla con <code>--bar-pad</code>. Al pasar el mouse por la barra (o enfocar con teclado) cuelga debajo la pestaña magenta del hub, que se abre de izquierda a derecha con su logo animado y se contrae al salir (<code>.bar__tab</code>). Lleva un contorno tinta de 3 px solo en el borde inferior.</td><td><code>.bar</code></td></tr>
             <tr><td>Cintas</td><td>Marquesinas CSS (<code>translateX(-50%)</code>, grupo duplicado). Se pausan con hover o foco. La cinta superior cambia de texto según la ruta (<code>data-ticker</code>).</td><td><code>.marquee</code></td></tr>
             <tr><td>Portada</td><td>El mapa se desplaza con el scroll (hasta 96 px) y con el mouse (±14 px).</td><td><code>.hero__map</code></td></tr>
             <tr><td>Revelado</td><td><code>IntersectionObserver</code> sobre <code>[data-reveal]</code>. Entra 22 px y con fundido. Con <code>--d</code> se escalona.</td><td><code>.js [data-reveal]</code></td></tr>
